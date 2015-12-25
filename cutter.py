@@ -14,14 +14,9 @@ class Cutter:
         self.pure_texts = [x.strip() for x in text.split(u'，')]
 
         for i in self.pure_texts:
-            print i
-        self.eat(text, n)
+            self.eat(i, n)
 
-        for i in self.words_freq:
-            if(i[1] > 2):
-                self.result.append(i[0])
-
-        return self.result
+        return self.get_result()
 
     def eat(self, text, n): #第一個參數放處理好的文章，第二個參數放字詞的長度單位
         words = [] #存放擷取出來的字詞
@@ -32,6 +27,8 @@ class Cutter:
         for word in words:
             if word not in self.words_freq:               #如果這個字詞還沒有被放在字典檔中
                 self.words_freq[word] = words.count(word) #就開一個新的字詞，裡面放入字詞計算的頻次
+            else:
+                self.words_freq[word] += words.count(word) #就開一個新的字詞，裡面放入字詞計算的頻次
 
     def get_result(self):
         words_freq = sorted(self.words_freq.iteritems(),key=operator.itemgetter(1),reverse=True) #change words_freq from dict to list
@@ -57,3 +54,9 @@ result = cutter.get_result()
 
 assert result[0] == u'孩子'
 assert result[2] == u'英語'
+
+cutter = Cutter()
+result = cutter.cut(text1 + text2, 2)
+
+#assert result[0] == u'孩子'
+#assert result[2] == u'英語'
