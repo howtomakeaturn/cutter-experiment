@@ -1,82 +1,47 @@
-#!encoding=utf-8
+#encoding=utf-8
 
-def list2freqdict(mylist):
-    mydict=dict()
-    for ch in mylist:
-        mydict[ch]=mydict.get(ch,0)+1
-    return mydict
+import codecs
+#處理編碼的套件
+import operator
+##處理字典檔排序的套件
 
-sentence=u'吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮。'
-chlist=[ch for ch in sentence]
+text = codecs.open("data/text3.txt","r","utf-8")
+#讀取存成TXT檔的文字，讀入後統一轉成UTF-8格式
 
-#print(chlist)
-chfreqdict=list2freqdict(chlist)
-#print(chfreqdict)
+text_new =""
+for line in text.readlines():
+    text_new += "".join(line.split('\n'))
+#在這邊先做一個小處理，把不同行的文章串接再一起，如果未來要做一些去除標點符號的處理也會是在這邊。
 
-from operator import itemgetter
-chfreqsorted=sorted(chfreqdict.items(), key=itemgetter(1), reverse=True)
-#print(chfreqsorted)
+class Cutter:
 
-def list2bigram(mylist):
-    return [mylist[i:i+2] for i in range(0,len(mylist)-1)]
+    def __init__(self):
+        self.words = [] #存放擷取出來的字詞
+        self.words_freq = {} #存放字詞:計算個數
 
-def list2trigram(mylist):
-    return [mylist[i:i+3] for i in range(0,len(mylist)-2)]
+    def ngram(self, text, n): #第一個參數放處理好的文章，第二個參數放字詞的長度單位
 
-chbigram=list2bigram(chlist)
-chtrigram=list2trigram(chlist)
-#print(chbigram)
-#print(chtrigram)
+        for w in range(len(text)-(n-1)): #要讀取的長度隨字詞長度改變
+            self.words.append(text[w:w+n])    #抓取長度w-(n-1)的字串
 
-def bigram2freqdict(mybigram):
-    mydict=dict()
-    for (ch1,ch2) in mybigram:
-        mydict[(ch1,ch2)]=mydict.get((ch1,ch2),0)+1
-    return mydict
+        for word in self.words:
+            if word not in self.words_freq:               #如果這個字詞還沒有被放在字典檔中
+                self.words_freq[word] = self.words.count(word) #就開一個新的字詞，裡面放入字詞計算的頻次
 
-def trigram2freqdict(mytrigram):
-    mydict=dict()
-    for (ch1,ch2,ch3) in mytrigram:
-        mydict[(ch1,ch2,ch3)]=mydict.get((ch1,ch2,ch3),0)+1
-    return mydict
+        self.words_freq = sorted(self.words_freq.iteritems(),key=operator.itemgetter(1),reverse=True) #change words_freq from dict to list
+        return self.words_freq
 
-bigramfreqdict=bigram2freqdict(chbigram)
-trigramfreqdict=trigram2freqdict(chtrigram)
+cutter = Cutter()
 
-#print bigramfreqdict
+words_freqs = cutter.ngram(text_new, 4)
 
-#print trigramfreqdict
+for i in words_freqs:
+    if(i[1] > 3):
+        print i[0],i[1]
+'''
 
-def freq2report(freqlist):
-    chs=str()
-    print('Char(s)\tCount')
-    print('=============')
-    for token, num in freqlist.iteritems():
-#    for (token,num) in freqlist:
-        if num > 2:
-            for ch in token:
-                chs=chs+ch
-            print chs + ' ' + str(num)
-            chs=''
-    return
+words_freqs = ngram(text_new,2)
 
-#freq2report(chfreqsorted)
-#freq2report(bigramfreqdict)
-#freq2report(trigramfreqdict)
-
-def makeBiGram(text):
-    chlist=[ch for ch in text]
-    t = list2bigram(chlist)
-    t = bigram2freqdict(t)
-    #print t
-    freq2report(t)
-
-file = open('text2.txt', 'r')
-text = file.read().decode('utf-8')
-
-makeBiGram(text)
-
-file = open('text1.txt', 'r')
-text = file.read().decode('utf-8')
-
-makeBiGram(text)
+for i in words_freqs:
+    print i[0],i[1]
+'''
