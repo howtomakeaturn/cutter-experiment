@@ -10,8 +10,22 @@ class Cutter:
         self.result = []
         self.pure_texts = []
 
+    def break_by(self, char):
+        k = []
+        for i in self.pure_texts:
+            j = [x.strip() for x in i.split(char)]
+            k = k + j
+
+        self.pure_texts = k
+
     def cut(self, text, n):
-        self.pure_texts = [x.strip() for x in text.split(u'，')]
+        self.pure_texts = [text]
+
+        self.break_by(u'，')
+        self.break_by(u'的')
+        self.break_by(u'「')
+        self.break_by(u'」')
+        self.break_by(u'。')
 
         for i in self.pure_texts:
             self.eat(i, n)
