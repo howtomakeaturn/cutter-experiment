@@ -80,6 +80,10 @@ class Cutter:
 
         self.break_by(u'的')
 
+        self.break_by(u'與')
+
+        self.break_by(u'是')
+
         for i in self.pure_texts:
             self.eat(i, n)
 
@@ -102,7 +106,7 @@ class Cutter:
         result = []
 
         for i in words_freq:
-            if(i[1] > 2):
+            if(i[1] > 1):
                 result.append(i[0])
         return result
 
