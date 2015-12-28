@@ -18,14 +18,21 @@ class Cutter:
 
         self.pure_texts = k
 
+    def break_punctuations(self):
+        self.break_by(u'，')
+        self.break_by(u'。')
+        self.break_by(u'「')
+        self.break_by(u'」')
+        self.break_by(u'『')
+        self.break_by(u'』')
+        self.break_by(u'…')
+
     def cut(self, text, n):
         self.pure_texts = [text]
 
-        self.break_by(u'，')
+        self.break_punctuations()
+
         self.break_by(u'的')
-        self.break_by(u'「')
-        self.break_by(u'」')
-        self.break_by(u'。')
 
         for i in self.pure_texts:
             self.eat(i, n)
