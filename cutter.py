@@ -28,9 +28,14 @@ class Cutter:
         self.break_by(u'』')
         self.break_by(u'…')
         self.break_by(u'：')
+        self.break_by(u'、')
 
     def remove_english_alphabet(self, text):
         result = re.sub('[A-Za-z]+', ' ', text)
+        return result
+
+    def remove_arabic_numerals(self, text):
+        result = re.sub('[0-9]+', ' ', text)
         return result
 
     def full_cut(self, text):
@@ -62,6 +67,8 @@ class Cutter:
 
     def cut(self, text, n):
         text = self.remove_english_alphabet(text)
+
+        text = self.remove_arabic_numerals(text)
 
         self.pure_texts = [text]
 
