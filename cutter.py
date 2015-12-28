@@ -2,6 +2,7 @@
 
 import operator
 ##處理字典檔排序的套件
+import re
 
 class Cutter:
 
@@ -28,6 +29,10 @@ class Cutter:
         self.break_by(u'…')
         self.break_by(u'：')
 
+    def remove_english_alphabet(self, text):
+        result = re.sub('[A-Za-z]+', ' ', text)
+        return result
+
     def full_cut(self, text):
         result = []
         result += self.cut(text, 4)
@@ -42,6 +47,8 @@ class Cutter:
         return result
 
     def cut(self, text, n):
+        text = self.remove_english_alphabet(text)
+
         self.pure_texts = [text]
 
         self.break_punctuations()
