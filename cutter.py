@@ -26,6 +26,20 @@ class Cutter:
         self.break_by(u'『')
         self.break_by(u'』')
         self.break_by(u'…')
+        self.break_by(u'：')
+
+    def full_cut(self, text):
+        result = []
+        result += self.cut(text, 4)
+        current_words = result[:]
+        self.words_freq = {}
+        text2 = text
+        for word in current_words:
+           text2 = text2.replace(word, '')
+
+        result += self.cut(text2, 3)
+
+        return result
 
     def cut(self, text, n):
         self.pure_texts = [text]

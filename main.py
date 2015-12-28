@@ -12,7 +12,13 @@ text_new = text.read()
 
 cutter = Cutter()
 
+'''
 words_freqs = cutter.cut(text_new, 4)
+
+for i in words_freqs:
+    print i
+'''
+words_freqs = cutter.full_cut(text_new)
 
 for i in words_freqs:
     print i
