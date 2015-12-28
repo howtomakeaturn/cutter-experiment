@@ -44,6 +44,14 @@ class Cutter:
 
         result += self.cut(text2, 3)
 
+        current_words = result[:]
+        self.words_freq = {}
+        text3 = text2
+        for word in current_words:
+           text3 = text3.replace(word, '')
+
+        result += self.cut(text3, 2)
+
         return result
 
     def break_new_lines(self):
