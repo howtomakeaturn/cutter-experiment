@@ -46,12 +46,22 @@ class Cutter:
 
         return result
 
+    def break_new_lines(self):
+        self.break_by("\n")
+
+    def break_spaces(self):
+        self.break_by(" ")
+
     def cut(self, text, n):
         text = self.remove_english_alphabet(text)
 
         self.pure_texts = [text]
 
         self.break_punctuations()
+
+        self.break_new_lines()
+
+        self.break_spaces()
 
         self.break_by(u'的')
 
