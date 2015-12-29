@@ -29,6 +29,11 @@ class Cutter:
         self.break_by(u'…')
         self.break_by(u'：')
         self.break_by(u'、')
+        self.break_by(u'（')
+        self.break_by(u'）')
+        self.break_by(u'？')
+        self.break_by(u'《')
+        self.break_by(u'》')
 
     def remove_english_alphabet(self, text):
         result = re.sub('[A-Za-z]+', ' ', text)
@@ -40,14 +45,14 @@ class Cutter:
 
     def full_cut(self, text):
         result = []
-        result += self.cut(text, 4)
+        result += self.cut(text, 5)
         current_words = result[:]
         self.words_freq = {}
         text2 = text
         for word in current_words:
            text2 = text2.replace(word, '')
 
-        result += self.cut(text2, 3)
+        result += self.cut(text2, 4)
 
         current_words = result[:]
         self.words_freq = {}
@@ -56,6 +61,13 @@ class Cutter:
            text3 = text3.replace(word, '')
 
         result += self.cut(text3, 2)
+
+        current_words = result[:]
+        self.words_freq = {}
+        text4 = text3
+        for word in current_words:
+           text4 = text4.replace(word, '')
+
 
         return result
 
@@ -83,6 +95,12 @@ class Cutter:
         self.break_by(u'與')
 
         self.break_by(u'是')
+
+        self.break_by(u'於')
+
+        self.break_by(u'或')
+
+        self.break_by(u'有')
 
         for i in self.pure_texts:
             self.eat(i, n)
