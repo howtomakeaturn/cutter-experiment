@@ -28,6 +28,7 @@ class Cutter:
         self.break_by(u'』')
         self.break_by(u'…')
         self.break_by(u'：')
+        self.break_by(u'；')
         self.break_by(u'、')
         self.break_by(u'（')
         self.break_by(u'）')
