@@ -5,21 +5,22 @@ from cutter import *
 import codecs
 #處理編碼的套件
 
-text = codecs.open("data/text7.txt","r","utf-8")
-#讀取存成TXT檔的文字，讀入後統一轉成UTF-8格式
+files = ['data/text1.txt', 'data/text2.txt', 'data/text3.txt', 'data/text4.txt', 'data/text5.txt', 'data/text6.txt', 'data/text7.txt']
 
-cutter = Cutter()
+import csv
 
-text_new = text.read()
+spamWriter = csv.writer(open('output/result.csv', 'wb'))
 
-cutter = Cutter()
+for f in files:
+    text = codecs.open(f,"r","utf-8")
+    #讀取存成TXT檔的文字，讀入後統一轉成UTF-8格式
 
-#words_freqs = cutter.cut(text_new, 3)
+    cutter = Cutter()
 
-#for i in words_freqs:
-  #  print i
+    text_new = text.read()
 
-words_freqs = cutter.full_cut(text_new)
+    cutter = Cutter()
 
-for i in words_freqs:
-    print i
+    words_freqs = cutter.full_cut(text_new)
+
+    spamWriter.writerow([s.encode("utf-8") for s in words_freqs])
