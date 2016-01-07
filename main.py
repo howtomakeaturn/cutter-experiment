@@ -24,6 +24,7 @@ for f in files:
     words_freqs = cutter.full_cut(text_new)
 
     spamWriter.writerow([s.encode("utf-8") for s in words_freqs])
+    spamWriter.writerow('')
 
     for s in words_freqs:
         if len(s) > 3:

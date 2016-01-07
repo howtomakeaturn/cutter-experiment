@@ -14,7 +14,7 @@ class Cutter:
             u'，', u'。', u'「', u'」', u'『', u'』', u'…', u'：',
             u'；', u'、', u'（', u'）', u'？', u'《', u'》'
         ]
-        self.conjunctions = [u'的', u'與', u'是', u'於', u'或', u'有']
+        self.conjunctions = [u'的', u'與', u'是', u'於', u'或', u'有', u'這']
 
     def break_by(self, char):
         k = []
