@@ -46,29 +46,15 @@ class Cutter:
 
     def full_cut(self, text):
         result = []
-        result += self.cut(text, 5)
-        current_words = result[:]
-        self.words_freq = {}
-        text2 = text
-        for word in current_words:
-           text2 = text2.replace(word, '')
 
-        result += self.cut(text2, 4)
+        current_text = text;
 
-        current_words = result[:]
-        self.words_freq = {}
-        text3 = text2
-        for word in current_words:
-           text3 = text3.replace(word, '')
-
-        result += self.cut(text3, 2)
-
-        current_words = result[:]
-        self.words_freq = {}
-        text4 = text3
-        for word in current_words:
-           text4 = text4.replace(word, '')
-
+        for i in range(5, 0, -1):
+            result += self.cut(current_text, i)
+            current_words = result[:]
+            self.words_freq = {}
+            for word in current_words:
+               current_text = current_text.replace(word, '')
 
         return result
 
