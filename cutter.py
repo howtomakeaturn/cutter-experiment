@@ -10,7 +10,11 @@ class Cutter:
         self.words_freq = {} #存放字詞:計算個數
         self.result = []
         self.pure_texts = []
-        self.punctuations = [u'，', u'。', u'「', u'」', u'『', u'』', u'…', u'：', u'；', u'、', u'（', u'）', u'？', u'《', u'》']
+        self.punctuations = [
+            u'，', u'。', u'「', u'」', u'『', u'』', u'…', u'：',
+            u'；', u'、', u'（', u'）', u'？', u'《', u'》'
+        ]
+        self.conjunctions = [u'的', u'與', u'是', u'於', u'或', u'有']
 
     def break_by(self, char):
         k = []
@@ -24,6 +28,10 @@ class Cutter:
         for i in self.punctuations:
             self.break_by(i)
 
+    def break_conjuctions(self):
+        for i in self.conjunctions:
+            self.break_by(i)
+
     def remove_english_alphabet(self, text):
         result = re.sub('[A-Za-z]+', ' ', text)
         return result
@@ -32,55 +40,11 @@ class Cutter:
         result = re.sub('[0-9]+', ' ', text)
         return result
 
-    def full_cut(self, text):
-        result = []
-
-        current_text = text;
-
-        for i in range(5, 0, -1):
-            result += self.cut(current_text, i)
-            current_words = result[:]
-            self.words_freq = {}
-            for word in current_words:
-               current_text = current_text.replace(word, '')
-
-        return result
-
     def break_new_lines(self):
         self.break_by("\n")
 
     def break_spaces(self):
         self.break_by(" ")
-
-    def cut(self, text, n):
-        text = self.remove_english_alphabet(text)
-
-        text = self.remove_arabic_numerals(text)
-
-        self.pure_texts = [text]
-
-        self.break_punctuations()
-
-        self.break_new_lines()
-
-        self.break_spaces()
-
-        self.break_by(u'的')
-
-        self.break_by(u'與')
-
-        self.break_by(u'是')
-
-        self.break_by(u'於')
-
-        self.break_by(u'或')
-
-        self.break_by(u'有')
-
-        for i in self.pure_texts:
-            self.eat(i, n)
-
-        return self.get_result()
 
     def eat(self, text, n): #第一個參數放處理好的文章，第二個參數放字詞的長度單位
         words = [] #存放擷取出來的字詞
@@ -101,6 +65,38 @@ class Cutter:
         for i in words_freq:
             if(i[1] > 1):
                 result.append(i[0])
+        return result
+
+    def cut(self, text, n):
+        text = self.remove_english_alphabet(text)
+
+        text = self.remove_arabic_numerals(text)
+
+        self.pure_texts = [text]
+
+        self.break_punctuations()
+
+        self.break_new_lines()
+
+        self.break_conjuctions()
+
+        for i in self.pure_texts:
+            self.eat(i, n)
+
+        return self.get_result()
+
+    def full_cut(self, text):
+        result = []
+
+        current_text = text;
+
+        for i in range(5, 0, -1):
+            result += self.cut(current_text, i)
+            current_words = result[:]
+            self.words_freq = {}
+            for word in current_words:
+               current_text = current_text.replace(word, '')
+
         return result
 
 text1 = u'''
