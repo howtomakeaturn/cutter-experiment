@@ -7,14 +7,15 @@ import re
 class Cutter:
 
     def __init__(self):
+        self.max_word_length = 20
         self.words_freq = {} #存放字詞:計算個數
         self.result = []
         self.pure_texts = []
         self.punctuations = [
             u'，', u'。', u'「', u'」', u'『', u'』', u'…', u'：',
-            u'；', u'、', u'（', u'）', u'？', u'《', u'》'
+            u'；', u'、', u'（', u'）', u'？', u'《', u'》', u'！'
         ]
-        self.conjunctions = [u'的', u'與', u'是', u'於', u'或', u'有', u'這']
+        self.conjunctions = [u'的', u'與', u'是', u'於', u'或', u'有', u'這', u'以']
 
     def break_by(self, char):
         k = []
@@ -92,7 +93,7 @@ class Cutter:
 
         current_text = text;
 
-        for i in range(5, 0, -1):
+        for i in range(self.max_word_length, 0, -1):
             result += self.cut(current_text, i)
             current_words = result[:]
             self.words_freq = {}
