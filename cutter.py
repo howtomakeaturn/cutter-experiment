@@ -80,6 +80,8 @@ class Cutter:
 
         self.break_conjuctions()
 
+        self.break_spaces()
+
         for i in self.pure_texts:
             self.eat(i, n)
 
