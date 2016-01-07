@@ -10,6 +10,7 @@ class Cutter:
         self.words_freq = {} #存放字詞:計算個數
         self.result = []
         self.pure_texts = []
+        self.punctuations = [u'，', u'。', u'「', u'」', u'『', u'』', u'…', u'：', u'；', u'、', u'（', u'）', u'？', u'《', u'》']
 
     def break_by(self, char):
         k = []
@@ -20,21 +21,8 @@ class Cutter:
         self.pure_texts = k
 
     def break_punctuations(self):
-        self.break_by(u'，')
-        self.break_by(u'。')
-        self.break_by(u'「')
-        self.break_by(u'」')
-        self.break_by(u'『')
-        self.break_by(u'』')
-        self.break_by(u'…')
-        self.break_by(u'：')
-        self.break_by(u'；')
-        self.break_by(u'、')
-        self.break_by(u'（')
-        self.break_by(u'）')
-        self.break_by(u'？')
-        self.break_by(u'《')
-        self.break_by(u'》')
+        for i in self.punctuations:
+            self.break_by(i)
 
     def remove_english_alphabet(self, text):
         result = re.sub('[A-Za-z]+', ' ', text)
